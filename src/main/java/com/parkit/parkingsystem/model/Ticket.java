@@ -1,10 +1,11 @@
 package com.parkit.parkingsystem.model;
 
-import java.util.Calendar;
+
 import java.util.Date;
 
 public class Ticket {
     private int id;
+    private int pourcentDiscount;
     private ParkingSpot parkingSpot;
     private String vehicleRegNumber;
     private double price;
@@ -58,4 +59,9 @@ public class Ticket {
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
     }
+
+    public int getPourcentDiscount(float v) { return pourcentDiscount; }
+
+    public void setPourcentDiscount(int pourcentDiscount) { this.pourcentDiscount = pourcentDiscount; }
+
 }
