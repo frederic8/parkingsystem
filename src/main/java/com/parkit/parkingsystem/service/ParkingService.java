@@ -114,19 +114,8 @@ public class ParkingService {
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
 
-// Add a 5% discount for recurring users
-            long inHour = ticket.getInTime().getTime();
-            long outHour = ticket.getOutTime().getTime();
-            long duration = outHour - inHour;
-            float resultTime = (((((float) duration / 1000) / 60) / 60));
+//5% discount
 
-            int pourcentDiscount = ticket.getPourcentDiscount(((resultTime) * 5 / 100));
-            ticket.setPourcentDiscount(pourcentDiscount);
-
-            if(ticketDAO.checkRecurrency(vehicleRegNumber)){
-
-                System.out.println("Add a 5% discount for recurring users :" + ticket.getPourcentDiscount(((resultTime) * 5 / 100)));
-            }
 
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);

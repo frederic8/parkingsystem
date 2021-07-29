@@ -4,6 +4,8 @@ import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
+import com.parkit.parkingsystem.model.ParkingSpot;
+import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.AfterAll;
@@ -13,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,6 +26,7 @@ public class ParkingDataBaseIT {
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
+    private static String vehicleRegistrationNumber = "ABCDEF";
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -39,7 +44,7 @@ public class ParkingDataBaseIT {
     @BeforeEach
     private void setUpPerTest() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn(vehicleRegistrationNumber);
         dataBasePrepareService.clearDataBaseEntries();
     }
 
@@ -53,6 +58,11 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+        //TODO : vérifiez qu'un ticket est effectivement enregistré dans la base de données et que la table Parking est mise à jour avec la disponibilité.
+        Ticket ticket =  ticketDAO.getTicket(vehicleRegistrationNumber);
+        assertNotNull(ticket);
+        assertFalse(ticket.getParkingSpot().isAvailable());
+
     }
 
     @Test
@@ -61,6 +71,11 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
         //TODO: check that the fare generated and out time are populated correctly in the database
+        //TODO : vérifiez que le tarif généré et l'heure de sortie sont correctement renseignés dans la base de données.
+        Ticket ticket = ticketDAO.getTicket(vehicleRegistrationNumber);
+        assertNotNull(ticket.getPrice());
+        assertNotNull(ticket.getOutTime());
+
     }
 
 }

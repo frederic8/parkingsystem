@@ -60,7 +60,7 @@ public class Ticket {
         this.outTime = outTime;
     }
 
-    public int getPourcentDiscount(float v) { return pourcentDiscount; }
+    public int getPourcentDiscount() { return pourcentDiscount; }
 
     public void setPourcentDiscount(int pourcentDiscount) { this.pourcentDiscount = pourcentDiscount; }
 

@@ -28,6 +28,10 @@ public class FareCalculatorService {
             ticket.setPrice(0.0);
             return;
 
+/*// Add a 5% discount for recurring users
+
+        if (ticket.getPourcentDiscount())
+        {
         } else {
 
 
@@ -45,11 +49,36 @@ public class FareCalculatorService {
                 default:
                     throw new IllegalArgumentException("Unkown Parking Type");
             }
+        }*/
+/*// Add a 5% discount for recurring users
+
+            int pourcentDiscount = ticket.getPourcentDiscount(((resultTime) * 5 / 100));
+            ticket.setPourcentDiscount(pourcentDiscount);
+
+            if(ticketDAO.checkRecurrency(vehicleRegNumber)){
+
+                System.out.println("Add a 5% discount for recurring users :" + ticket.getPourcentDiscount(((resultTime) * 5 / 100)));
+            }*/
+
+    } else {
+
+
+        switch (ticket.getParkingSpot().getParkingType()) {
+            case CAR: {
+                ticket.setPrice(resultTime * Fare.CAR_RATE_PER_HOUR);
+                System.out.println(resultTime * Fare.CAR_RATE_PER_HOUR);
+                break;
+            }
+            case BIKE: {
+                ticket.setPrice(resultTime * Fare.BIKE_RATE_PER_HOUR);
+                System.out.println(resultTime * Fare.BIKE_RATE_PER_HOUR);
+                break;
+            }
+            default:
+                throw new IllegalArgumentException("Unkown Parking Type");
         }
-
     }
+    }
+
+
 }
-
-
-
-
