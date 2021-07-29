@@ -58,7 +58,6 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
-        //TODO : vérifiez qu'un ticket est effectivement enregistré dans la base de données et que la table Parking est mise à jour avec la disponibilité.
         Ticket ticket =  ticketDAO.getTicket(vehicleRegistrationNumber);
         assertNotNull(ticket);
         assertFalse(ticket.getParkingSpot().isAvailable());
@@ -71,7 +70,6 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
         //TODO: check that the fare generated and out time are populated correctly in the database
-        //TODO : vérifiez que le tarif généré et l'heure de sortie sont correctement renseignés dans la base de données.
         Ticket ticket = ticketDAO.getTicket(vehicleRegistrationNumber);
         assertNotNull(ticket.getPrice());
         assertNotNull(ticket.getOutTime());
