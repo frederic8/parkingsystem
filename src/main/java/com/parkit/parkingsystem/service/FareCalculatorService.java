@@ -18,34 +18,41 @@ public class FareCalculatorService {
         //TODO: Some tests are failing here. Need to check if this logic is correct
         long duration = outHour - inHour;
 
-/** free parking functionality for the first 30 minutes */
 
+        //free parking functionality for the first 30 minutes
         float resultTime; //resultTime is used to calculate parking's cost.
 
         resultTime = (((((float) duration / 1000) / 60) / 60));
 
         if (resultTime <= 0.5) {
             ticket.setPrice(0.0);
-            return;
-    } else {
+        } else {
 
-
-        switch (ticket.getParkingSpot().getParkingType()) {
-            case CAR: {
-                ticket.setPrice(resultTime * Fare.CAR_RATE_PER_HOUR);
-                System.out.println(resultTime * Fare.CAR_RATE_PER_HOUR);
-                break;
+            switch (ticket.getParkingSpot().getParkingType()) {
+                case CAR: {
+                    ticket.setPrice(resultTime * Fare.CAR_RATE_PER_HOUR);
+                    System.out.println(resultTime * Fare.CAR_RATE_PER_HOUR);
+                    break;
+                }
+                case BIKE: {
+                    ticket.setPrice(resultTime * Fare.BIKE_RATE_PER_HOUR);
+                    System.out.println(resultTime * Fare.BIKE_RATE_PER_HOUR);
+                    break;
+                }
+                default:
+                    throw new IllegalArgumentException("Unkown Parking Type");
             }
-            case BIKE: {
-                ticket.setPrice(resultTime * Fare.BIKE_RATE_PER_HOUR);
-                System.out.println(resultTime * Fare.BIKE_RATE_PER_HOUR);
-                break;
-            }
-            default:
-                throw new IllegalArgumentException("Unkown Parking Type");
         }
-    }
-    }
 
+        //Apply 5% discount for recurring users
+        System.out.println("Parking time : " + resultTime);
+        System.out.println("Parking price : " + ticket.getPrice());
+        if (ticket.canApplyDiscount()) {
+            ticket.setPrice(ticket.getPrice() * 0.95);
+        }
+
+
+    }
 
 }
+

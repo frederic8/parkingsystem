@@ -1,11 +1,13 @@
 package com.parkit.parkingsystem.model;
 
 
+import com.parkit.parkingsystem.dao.TicketDAO;
+
 import java.util.Date;
 
 public class Ticket {
     private int id;
-    private int pourcentDiscount;
+    private double discount;
     private ParkingSpot parkingSpot;
     private String vehicleRegNumber;
     private double price;
@@ -60,8 +62,12 @@ public class Ticket {
         this.outTime = outTime;
     }
 
-    public int getPourcentDiscount() { return pourcentDiscount; }
-
-    public void setPourcentDiscount(int pourcentDiscount) { this.pourcentDiscount = pourcentDiscount; }
+    public boolean canApplyDiscount(){
+        TicketDAO ticketDAO = new TicketDAO();
+        Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+        return ticket != null && ticket.getOutTime() != null;
+    }
 
 }
+
+

@@ -7,46 +7,68 @@ import java.sql.*;
 
 public class DataBaseConfig {
 
+    /**
+     * Recovery of our logger.
+     */
     private static final Logger logger = LogManager.getLogger("DataBaseConfig");
 
+    /**
+     * DataBAse Connection.
+     * @return
+     * Log information.
+     */
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://127.0.0.1:3306/prod?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","frederic","frederic");
-
+                "jdbc:mysql://127.0.0.1:3306/prod?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "frederic", "frederic");
 
     }
 
-    public void closeConnection(Connection con){
-        if(con!=null){
+    /**
+     *
+     * @param con
+     * Close DataBase connection.
+     */
+    public void closeConnection(final Connection con) {
+        if (con != null) {
             try {
                 con.close();
                 logger.info("Closing DB connection");
             } catch (SQLException e) {
-                logger.error("Error while closing connection",e);
+                logger.error("Error while closing connection", e);
             }
         }
     }
 
-    public void closePreparedStatement(PreparedStatement ps) {
-        if(ps!=null){
+    /**
+     *
+     * @param ps
+     * Close Prepared Statement.
+     */
+    public void closePreparedStatement(final PreparedStatement ps) {
+        if (ps != null) {
             try {
                 ps.close();
                 logger.info("Closing Prepared Statement");
             } catch (SQLException e) {
-                logger.error("Error while closing prepared statement",e);
+                logger.error("Error while closing prepared statement", e);
             }
         }
     }
 
-    public void closeResultSet(ResultSet rs) {
-        if(rs!=null){
+    /**
+     *
+     * @param rs
+     * Close Result Set.
+     */
+    public void closeResultSet(final ResultSet rs) {
+        if (rs != null) {
             try {
                 rs.close();
                 logger.info("Closing Result Set");
             } catch (SQLException e) {
-                logger.error("Error while closing result set",e);
+                logger.error("Error while closing result set", e);
             }
         }
     }
