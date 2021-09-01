@@ -13,6 +13,7 @@ public class ParkingSpot {
         this.isAvailable = isAvailable;
     }
 
+
     public int getId() {
         return number;
     }

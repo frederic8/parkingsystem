@@ -75,7 +75,7 @@ public class ParkingService {
         int parkingNumber;
         ParkingSpot parkingSpot = null;
         try {
-            ParkingType parkingType = getVehichleType();
+            ParkingType parkingType = getVehicleType();
             parkingNumber = parkingSpotDAO.getNextAvailableSlot(parkingType);
             if (parkingNumber > 0) {
                 parkingSpot = new ParkingSpot(parkingNumber,parkingType, true);
@@ -90,7 +90,7 @@ public class ParkingService {
         return parkingSpot;
     }
 
-    private ParkingType getVehichleType() {
+    private ParkingType getVehicleType() {
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
         System.out.println("2 BIKE");
@@ -120,7 +120,7 @@ public class ParkingService {
 
             //Apply a 5% discount for recurring users
             if (ticket.canApplyDiscount()) {
-                 System.out.println(" Apply 5% discount for recurring users : " + ticket.getPrice());
+                 System.out.println("Apply 5% discount for recurring users : " + ticket.getPrice());
             }
 
             if (ticketDAO.updateTicket(ticket)) {
@@ -138,5 +138,6 @@ public class ParkingService {
             logger.error("Unable to process exiting vehicle", e);
         }
     }
+
 
 }
