@@ -40,7 +40,7 @@ public class ParkingDataBaseIT {
 
 
     @BeforeAll
-    private static void setUp() throws Exception {
+    private static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
@@ -84,6 +84,7 @@ public class ParkingDataBaseIT {
         Ticket ticket = ticketDAO.getTicket(vehicleRegistrationNumber);
         assertEquals(0.0, ticket.getPrice());
         assertNotNull(ticket.getOutTime());
+        assertTrue(ticketDAO.updateTicket(ticket));
     }
 
     @Test
