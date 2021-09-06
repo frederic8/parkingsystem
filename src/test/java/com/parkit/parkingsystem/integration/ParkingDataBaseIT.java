@@ -12,6 +12,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,7 +22,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+
 @ExtendWith(MockitoExtension.class)
+
+//Parking DataBase Integration Test
 public class ParkingDataBaseIT {
 
     private static final DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
@@ -57,6 +61,7 @@ public class ParkingDataBaseIT {
     }
 
     @Test
+    @DisplayName("Test if that a ticket is actualy saved in DB and Parking table is updated with availability")
     public void testParkingAVehicle() {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
@@ -70,6 +75,7 @@ public class ParkingDataBaseIT {
     }
 
     @Test
+    @DisplayName("Test that the generated fare and the exit time are correctly entered in the database.")
     public void testParkingLotExit() {
         testParkingAVehicle();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -80,8 +86,8 @@ public class ParkingDataBaseIT {
         assertNotNull(ticket.getOutTime());
     }
 
-
     @Test
+    @DisplayName("Test of apply a 5% discount for recurring users")
     public void testApplyFivePourcentDiscountForRecurringUser() {
         testParkingLotExit();
         testParkingAVehicle();
@@ -89,9 +95,7 @@ public class ParkingDataBaseIT {
         parkingService.processExitingVehicle();
         //Check that apply a 5% discount for recurring users
         Ticket ticket = ticketDAO.getTicket(vehicleRegistrationNumber);
+        assertTrue(ticketDAO.updateTicket(ticket));
         assertTrue(ticket.canApplyDiscount());
-
     }
-
-
 }
